@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Bit.ly Resolver Chrome Extension",
+  "description": "See the real URL a bit.ly link refers you too before clicking it. Avoid malicious links.",
+  "version": "1.0",
+
+  "content_scripts": {
+    "default_icon": "icon.png",
+    "default_popup": ["jquery.min.js", "popup.js"]
+  },
+  "permissions": [
+    "activeTab",
+    "https://bitlyresolver.herokuapp.com/"
+  ]
+}
