@@ -5,10 +5,13 @@
   "description": "See the real URL a bit.ly link refers you too before clicking it. Avoid malicious links.",
   "version": "1.0",
 
-  "content_scripts": {
-    "default_icon": "icon.png",
-    "default_popup": ["jquery.min.js", "popup.js"]
-  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "css": [],
+      "js": ["jquery.min.js", "bitlyresolver.js"]
+    }
+  ],
   "permissions": [
     "activeTab",
     "https://bitlyresolver.herokuapp.com/"
