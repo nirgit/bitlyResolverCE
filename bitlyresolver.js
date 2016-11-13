@@ -32,7 +32,7 @@ function bindListeners() {
     hideStatus();
   });
 
-  document.addEventListener('mousemove', function(mouseEvent) {
+  $(document).mousemove(function(mouseEvent) {
     if (Date.now() - lastAjax < 100) {
       return;
     }
@@ -44,10 +44,13 @@ function bindListeners() {
         if (lastBitlyLinks[content]) {
           updateStatus(lastBitlyLinks[content]);
         } else {
+          lastBitlyLinks[content] = 'Loading...';
           lastAjax = Date.now();
           $.get(END_POINT + linkToCheck).then(function(res) {
             lastBitlyLinks[content] = res;
             updateStatus(lastBitlyLinks[content]);
+          }).fail(function() {
+            lastBitlyLinks[content] = 'Could not resolve link';
           });
         }
       } else {
@@ -113,17 +116,19 @@ function createStatusMessage() {
   var statusDiv = document.createElement('div');
   statusDiv.innerHTML = '';
   $(statusDiv).css({
-    'background': 'white',
-    'border': '1px solid black',
-    'padding': '5px',
+    'background': '#ffffff',
+    'border': '1px solid #000000',
+    'border-radius': '5px',
+    'padding': '10px',
     'position': 'fixed',
     'opacity': 0,
     'transition': '.3s ease all',
-    'box-shadow': '5px 5px 5px #8ec78e',
-    'max-width': '500px',
+    'box-shadow': '5px 5px 8px #2b799c',
+    'max-width': '400px',
     'overflow-wrap': 'break-word',
     'z-index': 999999,
-    'pointer-events': 'none'
+    'pointer-events': 'none',
+    'font-weight': 'lighter'
   });
   return statusDiv;
 }
