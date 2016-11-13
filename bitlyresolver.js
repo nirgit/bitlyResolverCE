@@ -13,7 +13,8 @@ var nodeNamesToIgnore = {
   'object': 'object',
   'script': 'script',
   'form': 'form',
-  'iframe': 'iframe'
+  'iframe': 'iframe',
+  'img': 'img'
 };
 
 var lastBitlyLinks = {};
@@ -23,8 +24,19 @@ function init() {
   statusDiv = createStatusMessage();
   document.body.appendChild(statusDiv);
 
+  bindListeners();
+};
+
+function bindListeners() {
+  $(statusDiv).on('click', function() {
+    hideStatus();
+  });
+
   document.addEventListener('mousemove', function(mouseEvent) {
-    if (Date.now() - lastAjax > 100 && mouseEvent && mouseEvent.target && mouseEvent.target.children.length === 0) {
+    if (Date.now() - lastAjax < 100) {
+      return;
+    }
+    if (mouseEvent && mouseEvent.target && mouseEvent.target.children.length === 0) {
       var content = mouseEvent.target.innerText;
       var linkToCheck = getLinkToCheck(content);
       if (shouldCheckNode(mouseEvent.target) && linkToCheck) {
@@ -41,9 +53,11 @@ function init() {
       } else {
         hideStatus();
       }
+    } else {
+      hideStatus();
     }
   });
-};
+}
 
 function getLinkToCheck(content) {
   var index = content.indexOf('http://bit.ly');
@@ -98,18 +112,19 @@ function hideStatus() {
 function createStatusMessage() {
   var statusDiv = document.createElement('div');
   statusDiv.innerHTML = '';
-  var statusStyle = statusDiv.style;
-  statusStyle.background = 'white';
-  statusStyle.border = '1px solid black';
-  statusStyle.padding = '5px';
-  statusStyle.position = 'fixed';
-  statusStyle.opacity = 0;
-  statusStyle.transition = ".3s ease all";
-  statusStyle["box-shadow"] = '5px 5px 5px #8ec78e';
-  statusStyle["max-width"] = '100%';
-  statusStyle["z-index"] = 999999;
-  statusStyle["pointer-events"] = "none";
-
+  $(statusDiv).css({
+    'background': 'white',
+    'border': '1px solid black',
+    'padding': '5px',
+    'position': 'fixed',
+    'opacity': 0,
+    'transition': '.3s ease all',
+    'box-shadow': '5px 5px 5px #8ec78e',
+    'max-width': '500px',
+    'overflow-wrap': 'break-word';
+    'z-index': 999999,
+    'pointer-events': 'none'
+  });
   return statusDiv;
 }
 
