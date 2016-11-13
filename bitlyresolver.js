@@ -121,7 +121,7 @@ function createStatusMessage() {
     'transition': '.3s ease all',
     'box-shadow': '5px 5px 5px #8ec78e',
     'max-width': '500px',
-    'overflow-wrap': 'break-word';
+    'overflow-wrap': 'break-word',
     'z-index': 999999,
     'pointer-events': 'none'
   });
