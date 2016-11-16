@@ -1,6 +1,14 @@
 'use strict';
 
-var END_POINT = 'https://bitlyresolver.herokuapp.com/resolveBitly?url=';
+var END_POINT = {
+  BITLY: 'https://bitlyresolver.herokuapp.com/resolveBitly?url=',
+  GOOGL: 'https://bitlyresolver.herokuapp.com/resolveGoogl?url='
+};
+
+var URL_FORMAT = {
+  BITLY: 'bit.ly',
+  GOOGL: 'goo.gl',
+};
 
 var nodeNamesToIgnore = {
   'html': 'html',
@@ -46,7 +54,7 @@ function handleMouseMove(mouseEvent) {
       } else {
         lastBitlyLinks[content] = {status: 0, resolvedUrl: 'Resolving link...'};
         lastAjax = Date.now();
-        $.get(END_POINT + linkToCheck).then(function(res) {
+        $.get(linkToCheck).then(function(res) {
           lastBitlyLinks[content] = res;
           updateBubble(lastBitlyLinks[content]);
         }).fail(function() {
@@ -79,17 +87,28 @@ function debounce(func, millis) {
 
 function getLinkToCheck(content) {
   content = content || '';
-  var index = content.indexOf('http://bit.ly');
+  if (content.indexOf(URL_FORMAT.BITLY) >= 0) {
+    return getLinkToCheckByFormat(content, URL_FORMAT.BITLY, END_POINT.BITLY);
+  }
+  if (content.indexOf(URL_FORMAT.GOOGL) >= 0) {
+    return getLinkToCheckByFormat(content, URL_FORMAT.GOOGL, END_POINT.GOOGL);
+  }
+  return null;
+}
+
+function getLinkToCheckByFormat(content, format, endpoint) {
+  content = content || '';
+  var index = content.indexOf('http://' + format);
   if (index < 0) {
-    index = content.indexOf('https://bit.ly')
+    index = content.indexOf('https://' + format)
   }
   if (index < 0) {
-    index = content.indexOf('bit.ly');
+    index = content.indexOf(format);
   }
   if (index < 0) {
     return null;
   }
-  return content.substr(index);
+  return endpoint + content.substr(index);
 }
 
 function shouldCheckNode(node) {

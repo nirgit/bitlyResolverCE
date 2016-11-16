@@ -3,7 +3,7 @@
 
   "name": "Bit.ly Resolver Chrome Extension",
   "description": "See the real URL a bit.ly link refers you to, before clicking it. Avoid malicious links.",
-  "version": "1.3",
+  "version": "1.4",
   "icons": {
     "48": "icon-48.png",
     "128": "icon.png"
