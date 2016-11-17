@@ -24,7 +24,9 @@ var nodeNamesToIgnore = {
   'canvas': 'canvas'
 };
 
+var MAX_SIZE_BEFORE_CLEANUP = 500;
 var lastBitlyLinks = {};
+
 var lastAjax = 0;
 var statusDiv = null;
 
@@ -42,7 +44,7 @@ function bindListeners(statusDiv) {
 
   $(document).mousemove(debounce(handleMouseMove, 100));
 }
-// 
+
 function handleMouseMove(mouseEvent) {
   if (mouseEvent && isDomElementWithoutChildren(mouseEvent.target)) {
     var content = mouseEvent.target.innerText;
@@ -144,6 +146,13 @@ function updateBubble(result) {
 function hideStatus(statusDiv) {
   if (statusDiv) {
     statusDiv.style.opacity = 0;
+    cleanupCachedLinksIfExceededSize();
+  }
+}
+
+function cleanupCachedLinksIfExceededSize() {
+  if (_.size(lastBitlyLinks) > MAX_SIZE_BEFORE_CLEANUP) {
+    lastBitlyLinks = {};
   }
 }
 

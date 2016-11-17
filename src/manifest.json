@@ -13,7 +13,7 @@
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
     "css": [],
-    "js": ["lib/jquery.min.js", "app.min.js"]
+    "js": ["lib/jquery.min.js", "lib/lodash.core.min.js", "app.min.js"]
   }],
   "permissions": [
     "activeTab",
