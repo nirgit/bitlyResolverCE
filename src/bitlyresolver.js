@@ -42,7 +42,7 @@ function bindListeners(statusDiv) {
 
   $(document).mousemove(debounce(handleMouseMove, 100));
 }
-
+// 
 function handleMouseMove(mouseEvent) {
   if (mouseEvent && isDomElementWithoutChildren(mouseEvent.target)) {
     var content = mouseEvent.target.innerText;
