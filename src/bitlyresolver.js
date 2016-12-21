@@ -2,12 +2,29 @@
 
 var END_POINT = {
   BITLY: 'https://bitlyresolver.herokuapp.com/resolveBitly?url=',
-  GOOGL: 'https://bitlyresolver.herokuapp.com/resolveGoogl?url='
+  GOOGL: 'https://bitlyresolver.herokuapp.com/resolveGoogl?url=',
+  OWLY: 'https://bitlyresolver.herokuapp.com/resolveOwly?url='
 };
 
 var URL_FORMAT = {
   BITLY: 'bit.ly',
   GOOGL: 'goo.gl',
+  OWLY: 'ow.ly'
+};
+
+var SHORTENERS = {
+  BITLY: {
+    format: URL_FORMAT.BITLY,
+    url: END_POINT.BITLY
+  },
+  GOOGL: {
+    format: URL_FORMAT.GOOGL,
+    url: END_POINT.GOOGL
+  },
+  OWLY: {
+    format: URL_FORMAT.OWLY,
+    url: END_POINT.OWLY
+  }
 };
 
 var nodeNamesToIgnore = {
@@ -89,11 +106,11 @@ function debounce(func, millis) {
 
 function getLinkToCheck(content) {
   content = content || '';
-  if (content.indexOf(URL_FORMAT.BITLY) >= 0) {
-    return getLinkToCheckByFormat(content, URL_FORMAT.BITLY, END_POINT.BITLY);
-  }
-  if (content.indexOf(URL_FORMAT.GOOGL) >= 0) {
-    return getLinkToCheckByFormat(content, URL_FORMAT.GOOGL, END_POINT.GOOGL);
+  for (var sName in SHORTENERS) {
+    var shortener = SHORTENERS[sName];
+    if (content.indexOf(shortener.format) >= 0) {
+      return getLinkToCheckByFormat(content, shortener.format, shortener.url);
+    }
   }
   return null;
 }
