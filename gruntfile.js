@@ -12,7 +12,7 @@ module.exports = function(grunt) {
       statics: {
         files: [{
           expand: true,
-          src: ['lib/**', 'icons/**'],
+          src: ['lib/**', 'icons/icon*'],
           dest: 'dest',
           filter: 'isFile'
         }, {
@@ -27,6 +27,9 @@ module.exports = function(grunt) {
     shell: {
       clean: {
         command: () => 'rm -rf dest && mkdir dest'
+      },
+      pack: {
+        command: () => 'zip -r bitlyResolverCE-vXXXXXXX.zip dest'
       }
     }
   });
@@ -36,4 +39,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('default', ['shell:clean', 'uglify', 'copy:statics']);
+  grunt.registerTask('pack', ['shell:clean', 'uglify', 'copy:statics', 'shell:pack']);
 };
