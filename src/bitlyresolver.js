@@ -46,6 +46,9 @@ var lastBitlyLinks = {};
 
 var lastAjax = 0;
 var statusDiv = null;
+var isBubbleShowing = false;
+var lastBubblePosition = {x: 0, y: 0};
+var bubbleShowTime = 0;
 
 function init() {
   statusDiv = createStatusMessage();
@@ -56,7 +59,7 @@ function init() {
 
 function bindListeners(statusDiv) {
   $(statusDiv).on('click', function() {
-    hideStatus(statusDiv);
+    hideStatus(statusDiv, true);
   });
 
   $(document).mousemove(debounce(handleMouseMove, 100));
@@ -81,10 +84,10 @@ function handleMouseMove(mouseEvent) {
         });
       }
     } else {
-      hideStatus(statusDiv);
+      hideStatus(statusDiv, false, mouseEvent);
     }
   } else {
-    hideStatus(statusDiv);
+    hideStatus(statusDiv, false, mouseEvent);
   }
 }
 
@@ -137,6 +140,7 @@ function shouldCheckNode(node) {
 }
 
 function setBubblePosition(x, y) {
+  lastBubblePosition = {x: x, y: y};
   if (y + 20 > document.documentElement.clientHeight) {
     y -= 20;
   }
@@ -148,6 +152,9 @@ function setBubblePosition(x, y) {
 }
 
 function updateBubble(result) {
+  isBubbleShowing = true;
+  bubbleShowTime = Date.now();
+  $(document.body).css('pointer-events', 'none');
   statusDiv.innerHTML = result.resolvedUrl;
   statusDiv.style.opacity = 1;
   var statusDivPos = $(statusDiv).position();
@@ -160,11 +167,24 @@ function updateBubble(result) {
   }
 }
 
-function hideStatus(statusDiv) {
-  if (statusDiv) {
-    statusDiv.style.opacity = 0;
-    cleanupCachedLinksIfExceededSize();
+function hideStatus(statusDiv, isForced, mouseEvent) {
+  if (isForced || didMouseLeaveFastEnough(mouseEvent)) {
+    bubbleShowTime = 0;
+    isBubbleShowing = false;
+    $(document.body).css('pointer-events', '');
+    if (statusDiv) {
+      statusDiv.style.opacity = 0;
+      cleanupCachedLinksIfExceededSize();
+    }
   }
+}
+
+function didMouseLeaveFastEnough(mouseEvent) {
+  var mouseX = mouseEvent.clientX;
+  var mouseY = mouseEvent.clientY;
+  var dist = Math.sqrt(Math.pow(lastBubblePosition.x - mouseX, 2) + Math.pow(lastBubblePosition.y - mouseY, 2));
+  var time = Date.now() - bubbleShowTime;
+  return (dist / time > 10) || dist > 70;
 }
 
 function cleanupCachedLinksIfExceededSize() {
@@ -175,6 +195,7 @@ function cleanupCachedLinksIfExceededSize() {
 
 function createStatusMessage() {
   var statusDiv = document.createElement('div');
+  statusDiv.id = 'bitlyResolverBox-' + Date.now().toString(36);
   statusDiv.innerHTML = '';
   $(statusDiv).css({
     'background': '#ffffff',
