@@ -72,13 +72,13 @@ function handleMouseMove(mouseEvent) {
     if (shouldCheckNode(mouseEvent.target) && linkToCheck) {
       setBubblePosition(mouseEvent.clientX, mouseEvent.clientY);
       if (lastBitlyLinks[content]) {
-        updateBubble(lastBitlyLinks[content]);
+        updateBubble(lastBitlyLinks[content], mouseEvent.target);
       } else {
         lastBitlyLinks[content] = {status: 0, resolvedUrl: 'Resolving link...'};
         lastAjax = Date.now();
         $.get(linkToCheck).then(function(res) {
           lastBitlyLinks[content] = res;
-          updateBubble(lastBitlyLinks[content]);
+          updateBubble(lastBitlyLinks[content], mouseEvent.target);
         }).fail(function() {
           lastBitlyLinks[content] = {status: 0, resolvedUrl: 'Could not resolve link'};
         });
@@ -151,10 +151,13 @@ function setBubblePosition(x, y) {
   statusDiv.style.left = x + 'px';
 }
 
-function updateBubble(result) {
+function updateBubble(result, domElement) {
   isBubbleShowing = true;
   bubbleShowTime = Date.now();
-  $(document.body).css('pointer-events', 'none');
+  var titleToKeep = domElement.getAttribute('title');
+  domElement.setAttribute('title', '');
+  domElement.setAttribute('data-xtitle', titleToKeep);
+  statusDiv.domNodeWithLink = domElement;
   statusDiv.innerHTML = result.resolvedUrl;
   statusDiv.style.opacity = 1;
   var statusDivPos = $(statusDiv).position();
@@ -171,10 +174,17 @@ function hideStatus(statusDiv, isForced, mouseEvent) {
   if (isForced || didMouseLeaveFastEnough(mouseEvent)) {
     bubbleShowTime = 0;
     isBubbleShowing = false;
-    $(document.body).css('pointer-events', '');
     if (statusDiv) {
       statusDiv.style.opacity = 0;
       cleanupCachedLinksIfExceededSize();
+
+      var domElement = statusDiv.domNodeWithLink;
+      if (domElement) {
+        var keptTitle = domElement.getAttribute('data-xtitle');
+        domElement.setAttribute('title', keptTitle);
+        domElement.removeAttribute('data-xtitle');
+        statusDiv.domNodeWithLink = null;
+      }
     }
   }
 }
