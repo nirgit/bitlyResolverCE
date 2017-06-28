@@ -3,3 +3,5 @@ bit.ly Resolver - a Chrome Extension for deciphering bit.ly, goo.gl & ow.ly tiny
 
 
 Available at the Chrome Web Store: https://chrome.google.com/webstore/detail/bitly-resolver-chrome-ext/jeeajejfdlklcbedakfaokpjnkkpfclh?hl=en-US
+
+Extension homepage: https://nirgit.github.io/bitlyResolverCE/
