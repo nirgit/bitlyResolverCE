@@ -1,5 +1,7 @@
 'use strict';
 
+var messageBox = require('messageBox');
+
 var END_POINT = {
   BITLY: 'https://bitlyresolver.herokuapp.com/resolveBitly?url=',
   GOOGL: 'https://bitlyresolver.herokuapp.com/resolveGoogl?url=',
@@ -51,7 +53,7 @@ var lastBubblePosition = {x: 0, y: 0};
 var bubbleShowTime = 0;
 
 function init() {
-  statusDiv = createStatusMessage();
+  statusDiv = messageBox.create();
   $(document.body).append(statusDiv);
 
   bindListeners(statusDiv);
@@ -201,28 +203,6 @@ function cleanupCachedLinksIfExceededSize() {
   if (_.size(lastBitlyLinks) > MAX_SIZE_BEFORE_CLEANUP) {
     lastBitlyLinks = {};
   }
-}
-
-function createStatusMessage() {
-  var statusDiv = document.createElement('div');
-  statusDiv.id = 'bitlyResolverBox-' + Date.now().toString(36);
-  statusDiv.innerHTML = '';
-  $(statusDiv).css({
-    'background': '#ffffff',
-    'border': '1px solid #000000',
-    'border-radius': '5px',
-    'padding': '10px',
-    'position': 'fixed',
-    'opacity': 0,
-    'transition': '.3s ease all',
-    'box-shadow': '5px 5px 8px #2b799c',
-    'max-width': '400px',
-    'overflow-wrap': 'break-word',
-    'z-index': 999999,
-    'pointer-events': 'none',
-    'font-weight': 'lighter'
-  });
-  return statusDiv;
 }
 
 init();
