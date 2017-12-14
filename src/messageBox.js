@@ -3,6 +3,7 @@
 function getStatusMessageCSS() {
     return {
         'background': '#ffffff',
+        'color': '#000000',
         'border': '1px solid #000000',
         'border-radius': '5px',
         'padding': '10px',
