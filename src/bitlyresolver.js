@@ -9,7 +9,8 @@ const END_POINT = 'https://bitlyresolver.herokuapp.com/resolve?url=';
 var URL_FORMAT = {
   BITLY: 'bit.ly',
   GOOGL: 'goo.gl',
-  OWLY: 'ow.ly'
+  OWLY: 'ow.ly',
+  YAHOO: 'yhoo.it'
 };
 
 var nodeNamesToIgnore = constants.NODE_TAGS_TO_IGNORE;
