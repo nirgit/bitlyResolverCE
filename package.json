@@ -10,12 +10,22 @@
   "license": "MIT",
   "homepage": "https://github.com/nirgit/bitlyResolverCE#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.3.0",
     "grunt": "^1.0.1",
+    "grunt-babel": "^7.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
-    "grunt-shell": "^2.1.0"
+    "grunt-shell": "^2.1.0",
+    "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
-    "url-unshort": "^5.0.0"
+    "url-unshort": "^5.0.0",
+    "webpack": "^3.10.0"
+  },
+  "scripts": {
+    "build": "webpack && zip -r bitlyResolverCE-vXXXXXXX.zip dist"
   }
 }

@@ -1,8 +1,8 @@
 'use strict';
 
-var messageBox = require('messageBox');
-var constants = require('constants');
-var utils = require('utils');
+import constants from './constants';
+import utils from './utils';
+import messageBox from './messageBox';
 
 const END_POINT = 'https://bitlyresolver.herokuapp.com/resolve?url=';
 
@@ -47,7 +47,7 @@ function handleMouseMove(mouseEvent) {
       if (linksCache[content]) {
         updateBubble(linksCache[content], mouseEvent.target);
       } else {
-        resolveURLOnServer(content, mouseEvent);
+        resolveURLOnServer(content, linkToCheck, mouseEvent);
       }
       return;
     }
@@ -55,7 +55,7 @@ function handleMouseMove(mouseEvent) {
   hideStatus(statusDiv, false, mouseEvent);
 }
 
-function resolveURLOnServer(content, mouseEvent) {
+function resolveURLOnServer(content, linkToCheck, mouseEvent) {
   linksCache[content] = {status: 0, resolvedUrl: 'Resolving link...'};
   lastAjax = Date.now();
   $.get(linkToCheck).then(function(res) {
@@ -155,3 +155,5 @@ function cleanupCachedLinksIfExceededSize() {
 }
 
 init();
+
+export default {};

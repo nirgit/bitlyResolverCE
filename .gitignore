@@ -40,3 +40,4 @@ jspm_packages
 dest
 *.zip
 package-lock.json
+dist/

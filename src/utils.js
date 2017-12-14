@@ -10,6 +10,8 @@ function debounce(func, millis) {
   };
 }
 
-module.exports = {
-    debounce: debounce
+const Utils = {
+  debounce: debounce
 };
+
+export default Utils;

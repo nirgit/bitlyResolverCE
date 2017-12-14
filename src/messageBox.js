@@ -26,6 +26,6 @@ function createStatusMessage() {
     return statusDiv;
 }
 
-module.exports = {
+export default {
     create: createStatusMessage
 };

@@ -1,4 +1,4 @@
-var NODE_TAGS_TO_IGNORE = {
+const NODE_TAGS_TO_IGNORE = {
   'html': 'html',
   'body': 'body',
   'video': 'video',
@@ -12,9 +12,9 @@ var NODE_TAGS_TO_IGNORE = {
   'canvas': 'canvas'
 };
 
-var CONSTANTS = {
+const CONSTANTS = {
     CACHE_SIZE: 500,
     NODE_TAGS_TO_IGNORE: NODE_TAGS_TO_IGNORE
 };
 
-module.exports = CONSTANTS;
+export default CONSTANTS;
