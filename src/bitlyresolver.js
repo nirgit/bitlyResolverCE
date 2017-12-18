@@ -10,7 +10,8 @@ var URL_FORMAT = {
   BITLY: 'bit.ly',
   GOOGL: 'goo.gl',
   OWLY: 'ow.ly',
-  YAHOO: 'yhoo.it'
+  YAHOO: 'yhoo.it',
+  TINY: 'tinyurl.com'
 };
 
 var nodeNamesToIgnore = constants.NODE_TAGS_TO_IGNORE;
