@@ -11,7 +11,8 @@ var URL_FORMAT = {
   GOOGL: 'goo.gl',
   OWLY: 'ow.ly',
   YAHOO: 'yhoo.it',
-  TINY: 'tinyurl.com'
+  TINY: 'tinyurl.com',
+  BITDO: 'bit.do'
 };
 
 var nodeNamesToIgnore = constants.NODE_TAGS_TO_IGNORE;
