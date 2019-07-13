@@ -12,7 +12,8 @@ var URL_FORMAT = {
   OWLY: 'ow.ly',
   YAHOO: 'yhoo.it',
   TINY: 'tinyurl.com',
-  BITDO: 'bit.do'
+  BITDO: 'bit.do',
+  TCO: 't.co'
 };
 
 var nodeNamesToIgnore = constants.NODE_TAGS_TO_IGNORE;
@@ -80,8 +81,10 @@ function getLinkToCheck(content) {
   }
   for (var sName in URL_FORMAT) {
     var shortener = URL_FORMAT[sName];
-    if (content.indexOf(shortener) >= 0) {
-      return END_POINT + content;
+    var toResolve = new RegExp(`(https?:\/\/.*?${shortener}.*\s?)`, 'i')
+    var resolvedContent = content.match(toResolve)
+    if (resolvedContent) {
+      return END_POINT + resolvedContent[1]
     }
   }
   return null;

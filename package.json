@@ -1,6 +1,6 @@
 {
   "name": "bitlyresolverce",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "See the real URL a bit.ly link refers you to, before clicking it. Avoid malicious links.",
   "repository": {
     "type": "git",
